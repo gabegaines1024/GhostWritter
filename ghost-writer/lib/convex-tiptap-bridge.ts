@@ -5,7 +5,7 @@
  * and TipTap editor nodes.
  */
 
-import type { ScriptBlock, BlockType, TipTapNode } from "@/types/screenplay";
+import type { ScriptBlock, BlockType, TipTapNode } from "../types/screenplay";
 
 /**
  * Convert a Convex ScriptBlock to a TipTap node
@@ -48,8 +48,8 @@ export function tipTapNodeToConvexBlock(
   order: string
 ): Omit<ScriptBlock, "_id"> {
   const textContent = node.content
-    ?.filter((child) => child.type === "text")
-    .map((child) => child.text)
+    ?.filter((child: { type: string; text: string }) => child.type === "text")
+    .map((child: { type: string; text: string }) => child.text)
     .join("") ?? "";
 
   return {
@@ -67,8 +67,8 @@ export function tipTapNodeToConvexBlock(
 export function getNodeTextContent(node: TipTapNode): string {
   return (
     node.content
-      ?.filter((child) => child.type === "text")
-      .map((child) => child.text)
+      ?.filter((child: { type: string; text: string }) => child.type === "text")
+      .map((child: { type: string; text: string }) => child.text)
       .join("") ?? ""
   );
 }
