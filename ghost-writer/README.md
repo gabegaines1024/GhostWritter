@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GhostWritter
+🚀 The Tech Stack
+Framework: Next.js 15 (App Router, Server Actions)
 
-## Getting Started
+Database & Real-time: Convex (Reactive functions, Vector search, and File storage)
 
-First, run the development server:
+Styling & UI: shadcn/ui + Tailwind CSS
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Editor Core: TipTap / ProseMirror (Custom extensions for script elements)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Type Safety: TypeScript (Strictly typed schema and discriminated unions for document nodes)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Authentication: Clerk or Convex Auth
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+✨ Key Features
+1. Semantic Script Editor
+The editor doesn't just store text; it stores structured blocks.
 
-## Learn More
+Auto-Formatting: Use Tab and Enter shortcuts to cycle through Scene Headings, Action, Character, and Dialogue.
 
-To learn more about Next.js, take a look at the following resources:
+Type-Safe Blocks: Every block is a TypeScript-defined object, making data manipulation (like reordering scenes) foolproof.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Multi-Player Collaboration
+Powered by Convex's reactive engine:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Live Presence: See which scene your co-writer is currently working on with "focused-block" highlighting.
 
-## Deploy on Vercel
+Conflict-Free Editing: Leveraging Convex's optimistic updates for a lag-free, Google Docs-style experience.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. The "Character Bible"
+A side-panel database of characters.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Reactive Sync: Renaming a character in the Bible updates every instance of their name in the script dialogue across all users instantly.
+
+AI Insights: Use Convex Actions to analyze character dialogue for consistency in "voice" or "tone."
+
+4. Professional Workflow Tools
+Command Menu (⌘+K): A shadcn-based command palette for quick navigation between scenes or triggering AI scene summaries.
+
+Version Snapshots: Store and restore previous versions of a script using Convex's built-in document versioning.
+
+Industry Standard Export: One-click PDF generation that adheres to strict Hollywood margin and font (Courier Prime) requirements.
+
