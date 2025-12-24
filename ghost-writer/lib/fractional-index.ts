@@ -11,8 +11,14 @@
  * - getInitialKey() - Get the first key for an empty document
  */
 
-// TODO: Implement after installing fractional-indexing package
-// import { generateKeyBetween } from "fractional-indexing";
+import { generateKeyBetween } from "fractional-indexing";
+
+/**
+ * Get the initial key for the first block in a document
+ */
+export function getInitialKey(): string {
+  return generateKeyBetween(null, null);
+}
 
 /**
  * Generate a key between two existing keys
@@ -20,22 +26,9 @@
  * @param b - The key after (null for end of list)
  * @returns A new key between a and b
  */
-export function generateOrderKey(
-  a: string | null,
-  b: string | null
-): string {
-  // Placeholder - implement with fractional-indexing library
-  // return generateKeyBetween(a, b);
-  throw new Error("Install fractional-indexing package and implement");
+export function generateOrderKey(a: string | null | undefined, b: string | null | undefined): string {
+  return generateKeyBetween(a, b);
 }
-
-/**
- * Get the initial key for the first block in a document
- */
-export function getInitialKey(): string {
-  return generateOrderKey(null, null);
-}
-
 /**
  * Generate a key to insert after an existing block
  * @param existingKey - The key of the block to insert after
@@ -59,4 +52,3 @@ export function insertBeforeKey(
 ): string {
   return generateOrderKey(prevKey, existingKey);
 }
-
