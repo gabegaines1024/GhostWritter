@@ -9,22 +9,23 @@
 
 "use client";
 
-// import { EditorContent } from "@tiptap/react";
-// import { useEditor } from "@/hooks/useEditor";
+import { EditorContent } from "../../node_modules/@tiptap/react/dist/index";
+import { useEditor as useTipTapEditor } from "../../hooks/useEditor";
 
 export interface TipTapEditorProps {
   scriptId: string;
   initialContent?: string;
 }
 
-export function TipTapEditor({ scriptId }: TipTapEditorProps) {
-  // TODO: Initialize editor with useEditor hook
-  // const { editor } = useEditor({
-  //   initialContent,
-  //   onUpdate: (content) => {
-  //     // Sync to Convex
-  //   },
-  // });
+export function TipTapEditor({ scriptId, initialContent }: TipTapEditorProps) {
+  
+  const { editor } = useTipTapEditor({
+    initialContent: initialContent ?? "",
+     onUpdate: (content: string) => {
+      console.log("Content updated:", content);
+       // Sync to Convex
+     },
+   });
 
   return (
     <div className="screenplay-editor" data-script-id={scriptId}>
