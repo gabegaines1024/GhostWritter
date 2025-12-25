@@ -29,12 +29,15 @@ export function useEditor(options: UseEditorOptions = {}) {
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
-        // Disable default nodes we're replacing with screenplay versions
-        paragraph: false,
+        // Disable nodes we don't need for screenplay
         heading: false,
         blockquote: false,
         codeBlock: false,
         horizontalRule: false,
+        bulletList: false,
+        orderedList: false,
+        listItem: false,
+        // Keep paragraph as fallback (some extensions depend on it)
       }),
       Placeholder.configure({
         placeholder: options.placeholder ?? "Start writing your screenplay...",
