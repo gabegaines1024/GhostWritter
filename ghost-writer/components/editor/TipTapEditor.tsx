@@ -1,43 +1,95 @@
 /**
  * TipTap Editor Component
  *
- * Main screenplay editor powered by TipTap/ProseMirror.
- *
- * TODO: Implement after installing TipTap dependencies
- * npm install @tiptap/react @tiptap/starter-kit @tiptap/pm
+ * Main screenplay editor with MonkeyType-inspired styling.
  */
 
 "use client";
 
-import { EditorContent } from "../../node_modules/@tiptap/react/dist/index";
-import { useEditor as useTipTapEditor } from "../../hooks/useEditor";
+import { EditorContent } from "@tiptap/react";
+import { useEditor, useEditorCommands } from "../../hooks/useEditor";
+import { useEditorSync } from "../../hooks/useEditorSync";
+import type { BlockType } from "../../types/screenplay";
 
 export interface TipTapEditorProps {
   scriptId: string;
   initialContent?: string;
+  onBlockTypeChange?: (type: BlockType) => void;
 }
 
-export function TipTapEditor({ scriptId, initialContent }: TipTapEditorProps) {
-  
-  const { editor } = useTipTapEditor({
-    initialContent: initialContent ?? "",
-     onUpdate: (content: string) => {
-      console.log("Content updated:", content);
-       // Sync to Convex
-     },
-   });
+export function TipTapEditor({
+  scriptId,
+  initialContent,
+  onBlockTypeChange,
+}: TipTapEditorProps) {
+  const { editor, isReady } = useEditor({
+    initialContent,
+    placeholder: "Start writing... (type INT. or EXT. for a scene heading)",
+    onUpdate: () => {
+      // Content updates handled by useEditorSync
+    },
+    onSelectionUpdate: (editor) => {
+      const { $from } = editor.state.selection;
+      const blockType = $from.parent.type.name as BlockType;
+      onBlockTypeChange?.(blockType);
+    },
+  });
+
+  const commands = useEditorCommands(editor);
+
+  const { blocks, isLoading, isSaving, lastSaved, debouncedSaveContent } =
+    useEditorSync({
+      scriptId,
+      editor,
+    });
+
+  // Loading state
+  if (!isReady) {
+    return (
+      <div className="screenplay-editor-wrapper flex items-center justify-center">
+        <div className="text-[var(--text-muted)] animate-pulse">
+          Loading editor...
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="screenplay-editor" data-script-id={scriptId}>
-      {/* TODO: Add EditorContent from TipTap */}
-      {/* <EditorContent editor={editor} /> */}
-      <div className="p-8 text-muted-foreground">
-        <p>TipTap Editor placeholder</p>
-        <p className="text-sm">
-          Install dependencies and implement custom screenplay nodes.
-        </p>
-      </div>
+    <div className="screenplay-editor h-full" data-script-id={scriptId}>
+      <EditorContent
+        editor={editor}
+        className="screenplay-editor-wrapper"
+      />
     </div>
   );
 }
 
+/**
+ * Standalone editor without Convex (for testing)
+ */
+export function TipTapEditorStandalone({
+  initialContent,
+  onChange,
+}: {
+  initialContent?: string;
+  onChange?: (content: string) => void;
+}) {
+  const { editor, isReady } = useEditor({
+    initialContent,
+    onUpdate: onChange,
+  });
+
+  if (!isReady) {
+    return (
+      <div className="screenplay-editor-wrapper text-[var(--text-muted)]">
+        Loading...
+      </div>
+    );
+  }
+
+  return (
+    <div className="screenplay-editor h-full">
+      <EditorContent editor={editor} className="screenplay-editor-wrapper" />
+    </div>
+  );
+}
