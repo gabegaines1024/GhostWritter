@@ -25,6 +25,8 @@ export interface UseEditorOptions {
 
 export function useEditor(options: UseEditorOptions = {}) {
   const editor = useTipTapEditor({
+    // Prevent SSR hydration mismatch in Next.js
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         // Disable default nodes we're replacing with screenplay versions
